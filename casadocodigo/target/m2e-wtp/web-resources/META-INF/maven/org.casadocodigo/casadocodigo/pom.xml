@@ -135,7 +135,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
-			<version>4.1.0.RELEASE</version>
+			<version>4.3.30.RELEASE</version>
 		</dependency>
 
 		<dependency>
