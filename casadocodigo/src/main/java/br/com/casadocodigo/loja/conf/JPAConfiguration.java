@@ -4,7 +4,10 @@ import java.util.Properties;
 
 import javax.persistence.EntityManagerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -13,10 +16,16 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableTransactionManagement
+@PropertySource("classpath:application.properties")
 public class JPAConfiguration {
+
+    private Environment environment;
 	
-	public JPAConfiguration() {
-	}
+
+    @Autowired
+    public JPAConfiguration(Environment environment) {
+        this.environment = environment;
+    }
 
 	@Bean
 	public JpaTransactionManager transactionManager(EntityManagerFactory emf) {
@@ -34,10 +43,10 @@ public class JPAConfiguration {
         factoryBean.setJpaVendorAdapter(vendorAdapter);
 
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setUsername("root");
-        dataSource.setPassword("Root@10"); 
-        dataSource.setUrl("jdbc:mysql://localhost:3306/casadocodigo?serverTimezone=UTC");
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dataSource.setUsername(environment.getProperty("DB_USERNAME", "root"));
+        dataSource.setPassword(environment.getProperty("DB_PASSWORD")); 
+        dataSource.setUrl(environment.getProperty("JDBC_URL"));
+        dataSource.setDriverClassName(environment.getProperty("JDBC_DRIVER"));
         factoryBean.setDataSource(dataSource);
 
         Properties props = new Properties();

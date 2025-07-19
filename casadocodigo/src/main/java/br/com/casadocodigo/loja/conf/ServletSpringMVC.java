@@ -1,11 +1,11 @@
 package br.com.casadocodigo.loja.conf;
 
-import javax.servlet.Filter;
-import javax.servlet.MultipartConfigElement;
-import javax.servlet.ServletRegistration.Dynamic;
-
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+import jakarta.servlet.Filter;
+import jakarta.servlet.MultipartConfigElement;
+import jakarta.servlet.ServletRegistration.Dynamic;
 
 public class ServletSpringMVC extends AbstractAnnotationConfigDispatcherServletInitializer{
 
@@ -32,6 +32,7 @@ public class ServletSpringMVC extends AbstractAnnotationConfigDispatcherServletI
     protected Filter[] getServletFilters() {
         CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
         encodingFilter.setEncoding("UTF-8");
+		encodingFilter.setForceEncoding(true);
         return new Filter[] {encodingFilter};
     }
 	
