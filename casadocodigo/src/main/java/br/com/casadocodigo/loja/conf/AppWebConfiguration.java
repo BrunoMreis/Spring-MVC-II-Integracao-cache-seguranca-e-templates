@@ -6,10 +6,11 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.guava.GuavaCacheManager;
+import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.format.datetime.DateFormatter;
 import org.springframework.format.datetime.DateFormatterRegistrar;
@@ -26,7 +27,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import com.google.common.cache.CacheBuilder;
+import com.github.benmanes.caffeine.cache.Caffeine;
 
 import br.com.casadocodigo.loja.controllers.HomeController;
 import br.com.casadocodigo.loja.dao.ProdutoDAO;
@@ -34,78 +35,70 @@ import br.com.casadocodigo.loja.infra.FileSaver;
 import br.com.casadocodigo.loja.models.CarrinhoCompras;
 
 @EnableWebMvc
-@ComponentScan(basePackageClasses = {
-    HomeController.class,
-    ProdutoDAO.class,
-    FileSaver.class,
-    CarrinhoCompras.class
-})
+@ComponentScan(basePackageClasses = {HomeController.class, ProdutoDAO.class, FileSaver.class, CarrinhoCompras.class})
 @EnableCaching
 public class AppWebConfiguration implements WebMvcConfigurer {
 
-    @Bean
-    public InternalResourceViewResolver internalResourceViewResolver() {
-        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix("/WEB-INF/views/");
-        resolver.setSuffix(".jsp");
-        resolver.setExposeContextBeansAsAttributes(true);
-        resolver.setExposedContextBeanNames("carrinhoCompras");
-        return resolver;
-    }
+	@Bean
+	InternalResourceViewResolver internalResourceViewResolver() {
+		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+		resolver.setPrefix("/WEB-INF/views/");
+		resolver.setSuffix(".jsp");
+		resolver.setExposeContextBeansAsAttributes(true);
+		resolver.setExposedContextBeanNames("carrinhoCompras");
+		return resolver;
+	}
 
-    @Bean
-    public MessageSource messageSource() {
-        ReloadableResourceBundleMessageSource ms = new ReloadableResourceBundleMessageSource();
-        ms.setBasename("/WEB-INF/messages");
-        ms.setDefaultEncoding("UTF-8");
-        ms.setCacheSeconds(1);
-        return ms;
-    }
+	@Bean
+	MessageSource messageSource() {
+		ReloadableResourceBundleMessageSource ms = new ReloadableResourceBundleMessageSource();
+		ms.setBasename("/WEB-INF/messages");
+		ms.setDefaultEncoding("UTF-8");
+		ms.setCacheSeconds(1);
+		return ms;
+	}
 
-    @Bean
-    public FormattingConversionService mvcConversionService() {
-        DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
-        DateFormatterRegistrar registrar = new DateFormatterRegistrar();
-        registrar.setFormatter(new DateFormatter("dd/MM/yyyy"));
-        registrar.registerFormatters(conversionService);
-        return conversionService;
-    }
+	@Bean
+	FormattingConversionService mvcConversionService() {
+		DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
+		DateFormatterRegistrar registrar = new DateFormatterRegistrar();
+		registrar.setFormatter(new DateFormatter("dd/MM/yyyy"));
+		registrar.registerFormatters(conversionService);
+		return conversionService;
+	}
 
-    @Bean
-    public MultipartResolver multipartResolver() {
-        return new StandardServletMultipartResolver();
-    }
+	@Bean
+	MultipartResolver multipartResolver() {
+		return new StandardServletMultipartResolver();
+	}
 
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
+	@Bean
+	RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
 
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
-    }
+	@Override
+	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+		configurer.enable();
+	}
 
-    @Bean
-    public CacheManager cacheManager() {
-        CacheBuilder<Object, Object> builder =
-            CacheBuilder.newBuilder()
-                        .maximumSize(100)
-                        .expireAfterAccess(5, TimeUnit.MINUTES);
+	@Bean
+	CacheManager cacheManager() {
+	    CaffeineCacheManager cacheManager = new CaffeineCacheManager();
+	    cacheManager.setCaffeine(Caffeine.newBuilder()
+	        .maximumSize(100)
+	        .expireAfterAccess(5, TimeUnit.MINUTES));
+	    return cacheManager;
+	}
 
-        GuavaCacheManager manager = new GuavaCacheManager();
-        manager.setCacheBuilder(builder);
-        return manager;
-    }
-
-    @Bean
-    public ViewResolver contentNegotiationViewResolver(ContentNegotiationManager manager) {
-        List<ViewResolver> viewResolvers = new ArrayList<>();
-        viewResolvers.add(internalResourceViewResolver());
-        viewResolvers.add(new JsonViewResolver());
-        ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
-        resolver.setViewResolvers(viewResolvers);
-        resolver.setContentNegotiationManager(manager);
-        return resolver;
-    }
+	@Bean
+	ViewResolver contentNegotiationViewResolver(ContentNegotiationManager manager) {
+		List<ViewResolver> viewResolvers = new ArrayList<>();
+		viewResolvers.add(internalResourceViewResolver());
+		viewResolvers.add(new JsonViewResolver());
+		ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
+		resolver.setViewResolvers(viewResolvers);
+		resolver.setContentNegotiationManager(manager);
+		return resolver;
+	}
 }

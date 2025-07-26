@@ -22,6 +22,11 @@ body {
 <body>
 	<div class="container">
 		<h1>Login Casa do Código</h1>
+		<c:if test="${not empty param.error}">
+			<div class="alert alert-danger">
+				Usuário ou senha inválidos.
+			</div>
+		</c:if>
 		<form:form servletRelativeAction="/login" method="POST">
 			<div class="form-group">
 				<label>E-mail</label> <input type="text" name="username"

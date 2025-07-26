@@ -1,9 +1,9 @@
 package br.com.casadocodigo.loja.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
 import org.springframework.security.core.GrantedAuthority;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 @Entity
 public class Role implements GrantedAuthority {

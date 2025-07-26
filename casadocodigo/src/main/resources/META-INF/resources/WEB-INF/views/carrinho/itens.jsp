@@ -36,7 +36,7 @@
 			<div id="header-content">
 				<nav id="main-nav">
 					<ul class="clearfix">
-						<li><a href="${s:mvcUrl('CCC#itens').build() }" rel="nofollow">Carrinho (${carrinhoCompras.quantidade })</a></li>
+						<li><a href="${s:mvcUrl('CCC#itens').build().toUriString()}" rel="nofollow">Carrinho (${carrinhoCompras.quantidade })</a></li>
 						<li><a href="/pages/sobre-a-casa-do-codigo" rel="nofollow">Sobre Nós</a></li>
 						<li><a href="/pages/perguntas-frequentes" rel="nofollow">Perguntas Frequentes</a></li>
 					</ul>
@@ -91,7 +91,7 @@
 						</td>
 						<td class="numeric-cell">${carrinhoCompras.getTotal(item) }</td>
 						<td class="remove-item">
-							<form action="${s:mvcUrl('CCC#remover').arg(0, item.produto.id).arg(1,item.tipoPreco).build() }" method="POST">
+							<form action="${s:mvcUrl('CCC#remover').arg(0, item.produto.id).arg(1,item.tipoPreco).build().toUriString() }" method="POST">
 								<input type="image" src="${contextPath }/resources/imagens/excluir.png" 
 									alt="Excluir" title="Excluir" />
 							</form>	
@@ -102,7 +102,7 @@
 			<tfoot>
 				<tr>
 					<td colspan="3">
-						<form action="${s:mvcUrl('PC#finalizar').build() }" method="post">
+						<form action="${s:mvcUrl('PC#finalizar').build().toUriString() }" method="post">
 							<input type="submit" class="checkout" name="checkout" value="Finalizar compra" /></td>
 						</form>					
 					<td class="numeric-cell">${carrinhoCompras.total }</td>
