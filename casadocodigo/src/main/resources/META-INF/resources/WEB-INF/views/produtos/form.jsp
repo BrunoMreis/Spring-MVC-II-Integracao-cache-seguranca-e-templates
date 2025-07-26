@@ -25,7 +25,7 @@ body {
 
 	</nav>
 	<div class="container">
-	<form:form action="${s:mvcUrl('PC#gravar').build() }" method="post"
+	<form:form action="${s:mvcUrl('PC#gravar').build().toUriString() }" method="post"
 		commandName="produto" enctype="multipart/form-data">
 		<div>
 			<label>Título</label>

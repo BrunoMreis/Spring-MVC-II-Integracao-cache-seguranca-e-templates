@@ -22,7 +22,7 @@ public class PagamentoController {
 	private CarrinhoCompras carrinho;
 	
 	@Autowired
-	RestTemplate restTemplate;
+	private RestTemplate restTemplate;
 	
 	@RequestMapping(value="/finalizar", method=RequestMethod.POST)
 	public Callable<ModelAndView>  finalizar(RedirectAttributes model){

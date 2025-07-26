@@ -55,13 +55,13 @@
 					<ul class="clearfix">
 						<security:authorize access="hasRole('ROLE_ADMIN')">
 							<li>
-								<a href="${s:mvcUrl('PC#listar').build()}" 
+								<a href="${s:mvcUrl('PC#listar').build().toUriString() }" 
 								rel="nofollow"> Listagem de Produtos </a>
 							</li>
-							<li><a href="${s:mvcUrl('PC#form').build()}" rel="nofollow">
+							<li><a href="${s:mvcUrl('PC#form').build().toUriString()}" rel="nofollow">
 									Cadastro de Produtos </a></li>
 						</security:authorize>
-						<li><a href="${s:mvcUrl('CCC#itens').build()}" rel="nofollow">
+						<li><a href="${s:mvcUrl('CCC#itens').build().toUriString()}" rel="nofollow">
 								Seu carrinho (${carrinhoCompras.quantidade}) </a></li>
 						<li><a href="/pages/sobre-a-casa-do-codigo" rel="nofollow">
 								Sobre nós </a></li>

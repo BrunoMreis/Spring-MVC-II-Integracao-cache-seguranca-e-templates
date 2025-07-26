@@ -21,7 +21,7 @@ public class HomeController {
 	@RequestMapping("/")
 	public ModelAndView index() {
 
-		ModelAndView modelAndView = new ModelAndView("/produtos/home");
+		ModelAndView modelAndView = new ModelAndView("produtos/home");
 		List<Produto> produtos = produtoDAO.listar();
 		modelAndView.addObject("produtos", produtos);
 		return modelAndView;

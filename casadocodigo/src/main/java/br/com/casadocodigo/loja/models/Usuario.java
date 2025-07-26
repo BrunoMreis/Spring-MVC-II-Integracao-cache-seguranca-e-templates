@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Usuario implements UserDetails {
@@ -32,6 +32,10 @@ public class Usuario implements UserDetails {
 	public String getEmail() {
 		return email;
 	}
+	
+	public Usuario() {
+		// Default constructor for JPA
+	}	
 
 	public Usuario(String email, String nome, String senha) {
 		this.email = email;
