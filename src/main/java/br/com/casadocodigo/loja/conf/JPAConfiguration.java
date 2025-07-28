@@ -12,6 +12,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import jakarta.persistence.EntityManagerFactory;
@@ -19,6 +20,7 @@ import jakarta.persistence.EntityManagerFactory;
 @EnableTransactionManagement
 @PropertySource("classpath:application.properties")
 @Configuration
+@EnableRetry
 public class JPAConfiguration {
 
     private Environment environment;

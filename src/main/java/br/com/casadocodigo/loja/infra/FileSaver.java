@@ -18,8 +18,6 @@ public class FileSaver {
 	
     private HttpServletRequest request;
     
-    private final Logger LOGGER = LoggerFactory.getLogger(FileSaver.class);
-    
     private final String SLASH = "/";
     
     @Autowired

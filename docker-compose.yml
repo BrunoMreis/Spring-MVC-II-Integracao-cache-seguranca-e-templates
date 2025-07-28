@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: casadocodigo-app
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    networks:
+      - appnet
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/casadocodigo?autoReconnect=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: SPRING_DATASOURCE_USERNAME
+      SPRING_DATASOURCE_PASSWORD: app123SPRING_DATASOURCE_PASSWORD
+
+  mysql:
+    image: mysql:8.3
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: casadocodigo
+      MYSQL_USER: SPRING_DATASOURCE_USERNAME
+      MYSQL_PASSWORD: app123SPRING_DATASOURCE_PASSWORD
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - appnet
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+volumes:
+  mysql-data:
+
+networks:
+  appnet:
