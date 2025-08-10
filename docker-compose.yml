@@ -14,21 +14,19 @@ services:
     networks:
       - appnet
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/casadocodigo?autoReconnect=true&useSSL=false
-      SPRING_DATASOURCE_USERNAME: SPRING_DATASOURCE_USERNAME
-      SPRING_DATASOURCE_PASSWORD: app123SPRING_DATASOURCE_PASSWORD
+      DB_USER: appuser
+      DB_PASS: ${BANCO_DE_DADOS_SENHA}
+      JDBC_URL_MYSQL: jdbc:mysql://mysql/casadocodigo?serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
 
   mysql:
     image: mysql:8.3
     container_name: mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: casadocodigo
-      MYSQL_USER: SPRING_DATASOURCE_USERNAME
-      MYSQL_PASSWORD: app123SPRING_DATASOURCE_PASSWORD
-    ports:
-      - "3306:3306"
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: ${BANCO_DE_DADOS_SENHA}
+      MYSQL_RANDOM_ROOT_PASSWORD: yes
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
