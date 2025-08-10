@@ -9,5 +9,6 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /loajaApp
 COPY --from=build /loajaApp/target/*.jar loajaApp.jar
+USER nonroot
 EXPOSE 8080
 CMD ["java", "-jar", "loajaApp.jar"]
