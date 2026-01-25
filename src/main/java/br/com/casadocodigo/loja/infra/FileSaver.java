@@ -4,23 +4,19 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-@Component
 
+@Component
 public class FileSaver {
 	
     private HttpServletRequest request;
     
-    private final String SLASH = "/";
+    private static final String SLASH = "/";
     
-    @Autowired
     public FileSaver(HttpServletRequest request) {
 		this.request = request;
 	}
@@ -32,8 +28,10 @@ public class FileSaver {
         	String path = realPath + SLASH + cleaaName;
             file.transferTo(new File(path));
             return baseFolder + SLASH + cleaaName;
-        } catch (IllegalStateException | IOException e) {
-        	 throw new RuntimeException("Falha ao salvar o arquivo '" + file.getOriginalFilename() + "'", e);
+        } catch (IllegalStateException e) {
+             throw new ArquivoJaProcessadoException("Arquivo já foi processado: " + file.getOriginalFilename(), e);
+        } catch (IOException e) {
+             throw new ErroAoSalvarArquivoException("Falha ao salvar o arquivo '" + file.getOriginalFilename() + "'", e);
         }
     }
 }

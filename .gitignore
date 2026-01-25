@@ -223,3 +223,4 @@ buildNumber.properties
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/eclipse,visualstudiocode,intellij+all,maven,java
+.vscode/settings.json
