@@ -33,3 +33,9 @@
 	Spring-boot 2.4.0 para 3.5.3
 	Remove Tomcat v9.0
 	Adiciona conteirização em Docker
+
+# Atualizações 26/01/2026
+	Java 21 para 25
+	Spring-boot 3.5.6 para 3.5.10
+	Logback-core 1.5.19 para 1.5.25
+	Logback-classic 1.5.19 para 1.5.25

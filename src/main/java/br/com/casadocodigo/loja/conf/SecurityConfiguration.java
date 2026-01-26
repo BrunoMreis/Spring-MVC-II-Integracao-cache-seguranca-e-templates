@@ -53,6 +53,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/produtos/form").hasRole("ADMIN")
                         .requestMatchers("/carrinho/**", "/resources/**", "/pagamento/**", "/").permitAll()
+                        .requestMatchers("/login/form", "/login").permitAll()
                         .requestMatchers("/produtos/**", "/produtos").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form

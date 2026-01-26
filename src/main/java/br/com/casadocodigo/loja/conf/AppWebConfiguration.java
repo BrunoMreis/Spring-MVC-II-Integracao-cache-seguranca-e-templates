@@ -35,11 +35,16 @@ import br.com.casadocodigo.loja.dao.ProdutoDAO;
 import br.com.casadocodigo.loja.infra.FileSaver;
 import br.com.casadocodigo.loja.models.CarrinhoCompras;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackageClasses = {HomeController.class, ProdutoDAO.class, FileSaver.class, CarrinhoCompras.class})
 @EnableCaching
 public class AppWebConfiguration implements WebMvcConfigurer {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(AppWebConfiguration.class);
 
 	@Bean
 	InternalResourceViewResolver internalResourceViewResolver() {
@@ -81,7 +86,7 @@ public class AppWebConfiguration implements WebMvcConfigurer {
 
 	@Override
 	public void configureDefaultServletHandling(@NonNull DefaultServletHandlerConfigurer configurer) {
-		configurer.enable();
+		LOGGER.warn("Metodo configureDefaultServletHandling chamado na configuração do Spring MVC");
 	}
 
 	@Bean
