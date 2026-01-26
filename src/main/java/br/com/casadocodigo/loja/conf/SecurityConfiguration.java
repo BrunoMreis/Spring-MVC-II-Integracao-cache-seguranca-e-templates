@@ -1,6 +1,5 @@
 package br.com.casadocodigo.loja.conf;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import br.com.casadocodigo.loja.dao.UsuarioDAO;
 
@@ -20,11 +18,15 @@ import br.com.casadocodigo.loja.dao.UsuarioDAO;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    @Autowired
     private UsuarioDAO usuarioDAO;
 
+    public SecurityConfiguration(UsuarioDAO usuarioDAO) {
+        this.usuarioDAO = usuarioDAO;
+    }
+
+
     @Bean
-   PasswordEncoder passwordEncoder() {
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -46,25 +48,23 @@ public class SecurityConfiguration {
     }
 
     @Bean
-   SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-          .authorizeHttpRequests(authz -> authz
-              .requestMatchers("/produtos/form").hasRole("ADMIN")
-              .requestMatchers("/carrinho/**", "/resources/**", "/pagamento/**", "/").permitAll()
-              .requestMatchers("/produtos/**","/produtos").permitAll()
-              .anyRequest().authenticated()
-          )
-          .formLogin(form -> form
-              .loginPage("/login/form")
-              .loginProcessingUrl("/login")
-              .defaultSuccessUrl("/produtos")
-              .permitAll()
-          )
-          .logout(logout -> logout
-              .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-              .logoutSuccessUrl("/login")
-              .permitAll()
-          );
+                .authorizeHttpRequests(authz -> authz
+                        .requestMatchers("/produtos/form").hasRole("ADMIN")
+                        .requestMatchers("/carrinho/**", "/resources/**", "/pagamento/**", "/").permitAll()
+                        .requestMatchers("/login/form", "/login").permitAll()
+                        .requestMatchers("/produtos/**", "/produtos").permitAll()
+                        .anyRequest().authenticated())
+                .formLogin(form -> form
+                        .loginPage("/login/form")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/produtos")
+                        .permitAll())
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login")
+                        .permitAll());
 
         return http.build();
     }

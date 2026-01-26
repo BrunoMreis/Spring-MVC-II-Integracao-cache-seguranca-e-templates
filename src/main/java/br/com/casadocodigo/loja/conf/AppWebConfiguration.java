@@ -10,11 +10,13 @@ import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.format.datetime.DateFormatter;
 import org.springframework.format.datetime.DateFormatterRegistrar;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
+import org.springframework.lang.NonNull;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartResolver;
@@ -33,10 +35,16 @@ import br.com.casadocodigo.loja.dao.ProdutoDAO;
 import br.com.casadocodigo.loja.infra.FileSaver;
 import br.com.casadocodigo.loja.models.CarrinhoCompras;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@Configuration
 @EnableWebMvc
 @ComponentScan(basePackageClasses = {HomeController.class, ProdutoDAO.class, FileSaver.class, CarrinhoCompras.class})
 @EnableCaching
 public class AppWebConfiguration implements WebMvcConfigurer {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(AppWebConfiguration.class);
 
 	@Bean
 	InternalResourceViewResolver internalResourceViewResolver() {
@@ -77,8 +85,8 @@ public class AppWebConfiguration implements WebMvcConfigurer {
 	}
 
 	@Override
-	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-		configurer.enable();
+	public void configureDefaultServletHandling(@NonNull DefaultServletHandlerConfigurer configurer) {
+		LOGGER.warn("Metodo configureDefaultServletHandling chamado na configuração do Spring MVC");
 	}
 
 	@Bean

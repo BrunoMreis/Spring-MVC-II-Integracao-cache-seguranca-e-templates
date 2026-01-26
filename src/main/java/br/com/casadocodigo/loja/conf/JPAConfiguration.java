@@ -2,7 +2,6 @@ package br.com.casadocodigo.loja.conf;
 
 import java.util.Properties;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -26,7 +25,6 @@ public class JPAConfiguration {
     private Environment environment;
 	
 
-    @Autowired
     public JPAConfiguration(Environment environment) {
         this.environment = environment;
     }

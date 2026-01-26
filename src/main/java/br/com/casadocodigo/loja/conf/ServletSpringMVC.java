@@ -1,5 +1,6 @@
 package br.com.casadocodigo.loja.conf;
 
+import org.springframework.lang.NonNull;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -24,6 +25,7 @@ public class ServletSpringMVC extends AbstractAnnotationConfigDispatcherServletI
 	}
 
 	@Override
+	@NonNull
 	protected String[] getServletMappings() {
 		return new String[] {"/"};
 	}
@@ -38,7 +40,7 @@ public class ServletSpringMVC extends AbstractAnnotationConfigDispatcherServletI
 	
 	//veja tbm https://cursos.alura.com.br/forum/topico-atualizacao-resources-nao-sao-carregados-na-aula-10-58813
 	@Override
-	protected void customizeRegistration(Dynamic registration) {
+	protected void customizeRegistration(@NonNull Dynamic registration) {
 			registration.setMultipartConfig(new MultipartConfigElement(""));
 	}
 	
