@@ -74,7 +74,7 @@ class ProdutosControllerTest {
     void listarDeveRetornarProdutos() {
         when(dao.listar()).thenReturn(Collections.emptyList());
         ModelAndView mv = controller.listar();
-        assertEquals("/produtos/lista", mv.getViewName());
+        assertEquals("produtos/lista", mv.getViewName());
         assertTrue(mv.getModel().containsKey("produtos"));
     }
 
@@ -83,7 +83,7 @@ class ProdutosControllerTest {
         Produto produto = new Produto();
         when(dao.find(1)).thenReturn(produto);
         ModelAndView mv = controller.detalhe(1);
-        assertEquals("/produtos/detalhe", mv.getViewName());
+        assertEquals("produtos/detalhe", mv.getViewName());
         assertEquals(produto, mv.getModel().get("produto"));
     }
 }
