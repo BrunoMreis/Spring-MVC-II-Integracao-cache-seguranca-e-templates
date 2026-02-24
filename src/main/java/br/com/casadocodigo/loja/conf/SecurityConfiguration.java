@@ -2,6 +2,7 @@ package br.com.casadocodigo.loja.conf;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -48,17 +49,17 @@ public class SecurityConfiguration {
     }
 
     @Bean
+    @Profile("!dev")
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/produtos/form").hasRole("ADMIN")
-                        .requestMatchers("/carrinho/**", "/resources/**", "/pagamento/**", "/").permitAll()
                         .requestMatchers("/login/form", "/login").permitAll()
-                        .requestMatchers("/produtos/**", "/produtos").permitAll()
+                        .requestMatchers("/WEB-INF/views/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login/form")
-                        .loginProcessingUrl("/login")
+                        // .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/produtos")
                         .permitAll())
                 .logout(logout -> logout
@@ -68,4 +69,16 @@ public class SecurityConfiguration {
 
         return http.build();
     }
+
+    @Bean
+    @Profile("dev")
+    SecurityFilterChain filterChainNotSecurtiyDev(HttpSecurity http) throws Exception {
+    //    deepcode ignore DisablesCSRFProtection: Desabilita a proteção CSRF para facilitar o desenvolvimento, mas deve ser habilitada em produção.
+       return http
+            .authorizeRequests()
+                .anyRequest().permitAll() // libera todas as requisições
+            .and()
+            .csrf().disable().build(); // opcional, desativa CSRF
+    }
+
 }
