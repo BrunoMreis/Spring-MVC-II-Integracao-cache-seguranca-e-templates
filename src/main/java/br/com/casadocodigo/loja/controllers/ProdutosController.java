@@ -69,14 +69,14 @@ public class ProdutosController {
 	@GetMapping
 	public ModelAndView listar() {
 		List<Produto> produtos = dao.listar();
-		ModelAndView modelAndView = new ModelAndView("/produtos/lista");
+		ModelAndView modelAndView = new ModelAndView("produtos/lista");
 		modelAndView.addObject("produtos", produtos);
 		return modelAndView;
 	}
 
 	@GetMapping("/detalhe/{id}")
 	public ModelAndView detalhe(@PathVariable("id") Integer id) {
-		ModelAndView modelAndView = new ModelAndView("/produtos/detalhe");
+		ModelAndView modelAndView = new ModelAndView("produtos/detalhe");
 		Produto produto = dao.find(id);
 		modelAndView.addObject("produto", produto);
 		return modelAndView;

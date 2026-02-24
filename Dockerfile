@@ -6,10 +6,8 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Etapa 2: Runtime com JRE 25
-FROM eclipse-temurin:25-jre-jammy
+FROM dhi.io/eclipse-temurin:25-alpine3.23
 WORKDIR /loajaApp
 COPY --from=build /loajaApp/target/*.jar loajaApp.jar
-RUN useradd -m -u 1000 -s /sbin/nologin nonroot
-USER nonroot
-EXPOSE 8080
-CMD ["java", "-jar", "loajaApp.jar"]
+EXPOSE 8080 5005
+CMD ["java", "-Djava.io.tmpdir=/loajaApp", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005", "-jar", "loajaApp.jar"]
