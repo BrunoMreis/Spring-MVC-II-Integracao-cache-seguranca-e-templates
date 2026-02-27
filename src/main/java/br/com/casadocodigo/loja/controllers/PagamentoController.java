@@ -5,8 +5,8 @@ import java.util.concurrent.Callable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,7 +29,7 @@ public class PagamentoController {
 		this.restTemplate = restTemplate;
 	}
 	
-	@RequestMapping(value="/finalizar", method=RequestMethod.POST)
+	@PostMapping("/finalizar")
 	public Callable<ModelAndView>  finalizar(RedirectAttributes model){
 		return () -> {
 			String uri = "http://book-payment.herokuapp.com/payment";
