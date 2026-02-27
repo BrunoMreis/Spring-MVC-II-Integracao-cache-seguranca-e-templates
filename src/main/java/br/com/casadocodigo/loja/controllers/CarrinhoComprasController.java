@@ -19,11 +19,14 @@ import br.com.casadocodigo.loja.models.TipoPreco;
 @Scope(value=WebApplicationContext.SCOPE_REQUEST)
 public class CarrinhoComprasController {
 
-	@Autowired
 	private ProdutoDAO produtoDao;
 	
-	@Autowired
 	private CarrinhoCompras carrinho;
+
+	public CarrinhoComprasController(ProdutoDAO produtoDao, CarrinhoCompras carrinho) {
+		this.produtoDao = produtoDao;
+		this.carrinho = carrinho;
+	}
 	
 	@RequestMapping("/add")
 	public ModelAndView add(Integer produtoId, TipoPreco tipoPreco) {

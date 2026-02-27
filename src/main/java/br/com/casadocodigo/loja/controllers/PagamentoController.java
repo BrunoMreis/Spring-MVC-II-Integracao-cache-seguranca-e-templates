@@ -2,7 +2,8 @@ package br.com.casadocodigo.loja.controllers;
 
 import java.util.concurrent.Callable;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,12 +18,16 @@ import br.com.casadocodigo.loja.models.DadosPagamento;
 @Controller
 @RequestMapping("/pagamento")
 public class PagamentoController {
-
-	@Autowired
+	private static final Logger LOGGER = LoggerFactory.getLogger(PagamentoController .class);
+	
 	private CarrinhoCompras carrinho;
 	
-	@Autowired
 	private RestTemplate restTemplate;
+
+	public PagamentoController(CarrinhoCompras carrinho, RestTemplate restTemplate) {
+		this.carrinho = carrinho;
+		this.restTemplate = restTemplate;
+	}
 	
 	@RequestMapping(value="/finalizar", method=RequestMethod.POST)
 	public Callable<ModelAndView>  finalizar(RedirectAttributes model){
@@ -32,10 +37,10 @@ public class PagamentoController {
 			try {
 				String response = restTemplate.postForObject(uri, new DadosPagamento(carrinho.getTotal()), String.class);
 				model.addFlashAttribute("sucesso", response);
-				System.out.println(response);
+				LOGGER.debug("Response: {}", response);
 				return new ModelAndView("redirect:/produtos");
 			} catch (HttpClientErrorException e) {
-				e.printStackTrace();
+				LOGGER.warn("Erro ao processar pagamento: {}", e.getMessage(), e);
 				model.addFlashAttribute("falha", "Valor maior que o permitido");
 				return new ModelAndView("redirect:/produtos");
 			}

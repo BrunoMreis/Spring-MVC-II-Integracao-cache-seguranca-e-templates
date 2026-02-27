@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Livros de Java, Android, iPhone, Ruby, PHP e muito mais - Casa do Código</title>
+
+    <!-- CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/css/bootstrap-theme.min.css}" rel="stylesheet" />
+
+    <style type="text/css">
+        body {
+            padding: 60px 0px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <h1>Casa do Código</h1>
+    </nav>
+
+    <div class="container">
+        <!-- Formulário Thymeleaf -->
+        <form th:action="@{/produto/gravar}" th:object="${produto}" method="post" enctype="multipart/form-data">
+            <div>
+                <label>Título</label>
+                <input type="text" th:field="*{titulo}" class="form-control" />
+                <div th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></div>
+            </div>
+
+            <div>
+                <label>Descrição</label>
+                <textarea th:field="*{descricao}" class="form-control"></textarea>
+                <div th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}"></div>
+            </div>
+
+            <div>
+                <label>Páginas</label>
+                <input type="number" th:field="*{paginas}" class="form-control" />
+                <div th:if="${#fields.hasErrors('paginas')}" th:errors="*{paginas}"></div>
+            </div>
+
+            <div>
+                <label>Data de Lançamento</label>
+                <input type="date" th:field="*{dataLancamento}" class="form-control" />
+                <div th:if="${#fields.hasErrors('dataLancamento')}" th:errors="*{dataLancamento}"></div>
+            </div>
+
+            <!-- Loop de preços -->
+            <div th:each="tipoPreco, status : ${tipos}">
+                <label th:text="${tipoPreco}"></label>
+                <input type="text" th:field="*{precos[__${status.index}__].valor}" class="form-control" />
+                <input type="hidden" th:field="*{precos[__${status.index}__].tipo}" th:value="${tipoPreco}" />
+            </div>
+
+            <div>
+                <label>Sumário</label>
+                <input name="sumario" type="file" class="form-control" />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+        </form>
+    </div>
+</body>
+</html>

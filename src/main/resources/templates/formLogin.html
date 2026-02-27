@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{login.title}">Login</title>
+
+    <!-- CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/css/bootstrap-theme.min.css}" rel="stylesheet" />
+
+    <style type="text/css">
+        body {
+            padding: 60px 0px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 th:text="#{login.header}">Login</h1>
+
+        <!-- Exibe mensagem de erro se existir parâmetro "error" -->
+        <div th:if="${param.error}" class="alert alert-danger" th:text="#{login.error}"></div>
+
+        <!-- Formulário de login -->
+        <form th:action="@{/login}" method="post">
+            <div class="form-group">
+                <label th:text="#{login.label.email}">Email</label>
+                <input type="text" name="username" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label th:text="#{login.label.password}">Senha</label>
+                <input type="password" name="password" class="form-control" />
+            </div>
+
+            <button type="submit" class="btn btn-primary" th:text="#{login.button.login}">Entrar</button>
+        </form>
+    </div>
+</body>
+</html>
