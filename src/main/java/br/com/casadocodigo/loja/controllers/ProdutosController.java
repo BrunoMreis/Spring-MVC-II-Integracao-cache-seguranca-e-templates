@@ -35,7 +35,7 @@ public class ProdutosController {
 		this.dao = dao;
 	}
 
-	@InitBinder
+	@InitBinder("produto")
 	public void initBinder(WebDataBinder binder) {
 		binder.addValidators(new ProdutoValidation());
 	}
