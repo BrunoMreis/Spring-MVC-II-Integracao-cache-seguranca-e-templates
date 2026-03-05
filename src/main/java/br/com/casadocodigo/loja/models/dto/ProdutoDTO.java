@@ -22,6 +22,12 @@ public record ProdutoDTO(
         @Min(value = 1, message = "paginas deve ser pelo menos 1")
         Integer paginas
 ) {
+    /**
+     * Fábrica para criar um ProdutoDTO a partir de campos simples.
+     */
+    public static ProdutoDTO of(String titulo, String descricao, Integer paginas) {
+        return new ProdutoDTO(titulo, descricao, paginas);
+    }
 
     /**
      * Cria uma nova instância de {@link Produto} populando apenas os campos permitidos.
@@ -52,4 +58,15 @@ public record ProdutoDTO(
         }
         return produto;
     }
+
+    /**
+     * Cria uma nova instância de {@link ProdutoDTO} a partir de uma entidade {@link Produto}.
+     *
+     * @param p entidade de origem
+     * @return uma nova instância de {@link ProdutoDTO}
+     */
+    public static ProdutoDTO fromEntity(Produto p) {
+        return new ProdutoDTO(p.getTitulo(), p.getDescricao(), p.getPaginas());
+    }
+
 }
