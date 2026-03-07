@@ -54,12 +54,13 @@ public class SecurityConfiguration {
         http
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/produtos/form").hasRole("ADMIN")
+                        .requestMatchers("/css/**", "/js/**", "/imagens/**", "/webjars/**", "/fonts/**","/arquivos-sumario/**").permitAll()
                         .requestMatchers("/login/form", "/login").permitAll()
                         .requestMatchers("/WEB-INF/views/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login/form")
-                        // .loginProcessingUrl("/login")
+                        .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/produtos")
                         .permitAll())
                 .logout(logout -> logout

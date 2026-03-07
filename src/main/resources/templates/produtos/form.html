@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <title>Livros de Java, Android, iPhone, Ruby, PHP e muito mais - Casa do Código</title>
@@ -14,6 +15,7 @@
         }
     </style>
 </head>
+
 <body>
     <nav class="navbar navbar-inverse">
         <h1>Casa do Código</h1>
@@ -23,26 +25,34 @@
         <!-- Formulário Thymeleaf -->
         <form th:action="@{/produto/gravar}" th:object="${produto}" method="post" enctype="multipart/form-data">
             <div>
-                <label>Título</label>
-                <input type="text" th:field="*{titulo}" class="form-control" />
+                <label>
+                    Título
+                    <input type="text" th:field="*{titulo}" class="form-control" />
+                </label>
                 <div th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></div>
             </div>
 
             <div>
-                <label>Descrição</label>
-                <textarea th:field="*{descricao}" class="form-control"></textarea>
+                <label>
+                    Descrição
+                    <textarea th:field="*{descricao}" class="form-control"></textarea>
+                </label>
                 <div th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}"></div>
             </div>
 
             <div>
-                <label>Páginas</label>
-                <input type="number" th:field="*{paginas}" class="form-control" />
+                <label>
+                    <input type="number" th:field="*{paginas}" class="form-control" />
+                    Páginas
+                </label>
                 <div th:if="${#fields.hasErrors('paginas')}" th:errors="*{paginas}"></div>
             </div>
 
             <div>
-                <label>Data de Lançamento</label>
-                <input type="date" th:field="*{dataLancamento}" class="form-control" />
+                <label>
+                    Data de Lançamento
+                    <input type="date" th:field="*{dataLancamento}" class="form-control" />
+                </label>
                 <div th:if="${#fields.hasErrors('dataLancamento')}" th:errors="*{dataLancamento}"></div>
             </div>
 
@@ -54,12 +64,14 @@
             </div>
 
             <div>
-                <label>Sumário</label>
-                <input name="sumario" type="file" class="form-control" />
+                <label>
+                    Sumário
+                    <input name="sumario" type="file" class="form-control" />
+                </label>
             </div>
-
             <button type="submit" class="btn btn-primary">Cadastrar</button>
         </form>
     </div>
 </body>
+
 </html>

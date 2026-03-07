@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <title th:text="#{login.title}">Login</title>
@@ -14,6 +15,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1 th:text="#{login.header}">Login</h1>
@@ -24,17 +26,22 @@
         <!-- Formulário de login -->
         <form th:action="@{/login}" method="post">
             <div class="form-group">
-                <label th:text="#{login.label.email}">Email</label>
-                <input type="text" name="username" class="form-control" />
+                <label>
+                    <span th:text="#{login.label.email}">E-mail</span>
+                    <input type="text" name="username" class="form-control" />
+                </label>
+
             </div>
 
             <div class="form-group">
-                <label th:text="#{login.label.password}">Senha</label>
-                <input type="password" name="password" class="form-control" />
+                <label>
+                   <span th:text="#{login.label.password}">Senha</span>
+                   <input type="password" name="password" class="form-control" />
+                </label>
             </div>
-
             <button type="submit" class="btn btn-primary" th:text="#{login.button.login}">Entrar</button>
         </form>
     </div>
 </body>
+
 </html>
