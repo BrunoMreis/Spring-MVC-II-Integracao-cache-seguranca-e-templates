@@ -71,15 +71,5 @@ public class SecurityConfiguration {
         return http.build();
     }
 
-    @Bean
-    @Profile("dev")
-    SecurityFilterChain filterChainNotSecurtiyDev(HttpSecurity http) throws Exception {
-    //    deepcode ignore DisablesCSRFProtection: Desabilita a proteção CSRF para facilitar o desenvolvimento, mas deve ser habilitada em produção.
-       return http
-            .authorizeRequests()
-                .anyRequest().permitAll() // libera todas as requisições
-            .and()
-            .csrf().disable().build(); // opcional, desativa CSRF
-    }
 
 }
