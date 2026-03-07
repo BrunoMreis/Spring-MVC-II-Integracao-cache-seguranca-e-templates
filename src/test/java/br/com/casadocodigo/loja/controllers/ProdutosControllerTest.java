@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -16,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import br.com.casadocodigo.loja.dao.ProdutoDAO;
 import br.com.casadocodigo.loja.infra.FileSaver;
 import br.com.casadocodigo.loja.models.Produto;
+import br.com.casadocodigo.loja.models.dto.ProdutoDTO;
 
 class ProdutosControllerTest {
 
@@ -39,17 +38,20 @@ class ProdutosControllerTest {
     @Mock
     private RedirectAttributes redirectAttributes;
 
+    private ProdutoDTO dto;
+
     @InjectMocks
     private ProdutosController controller;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        this.dto = ProdutoDTO.of("Título", "Desc", Integer.valueOf(200));
     }
 
     @Test
     void formDeveRetornarViewECriarTipos() {
-        ModelAndView mv = controller.form(new Produto());
+        ModelAndView mv = controller.form(dto);
         assertEquals("/produtos/form", mv.getViewName());
         assertTrue(mv.getModel().containsKey("tipos"));
     }
@@ -57,7 +59,7 @@ class ProdutosControllerTest {
     @Test
     void gravarComErroDeveRetornarForm() {
         when(result.hasErrors()).thenReturn(true);
-        ModelAndView mv = controller.gravar(file, new Produto(), result, redirectAttributes);
+        ModelAndView mv = controller.gravar(file, dto, result, redirectAttributes);
         assertEquals("/produtos/form", mv.getViewName());
     }
 
@@ -65,7 +67,7 @@ class ProdutosControllerTest {
     void gravarComSucessoDeveRedirecionar() {
         when(result.hasErrors()).thenReturn(false);
         when(fileSaver.write(anyString(), any())).thenReturn("caminho");
-        ModelAndView mv = controller.gravar(file, new Produto(), result, redirectAttributes);
+        ModelAndView mv = controller.gravar(file, dto, result, redirectAttributes);
         assertEquals("redirect:produtos", mv.getViewName());
         verify(dao, times(1)).gravar(any());
     }

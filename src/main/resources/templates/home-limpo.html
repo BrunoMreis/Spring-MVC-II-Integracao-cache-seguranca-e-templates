@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="icon" href="//cdn.shopify.com/s/files/1/0155/7645/t/177/assets/favicon.ico?11981592617154272979" type="image/ico" />
+    <title>Livros de Java, SOA, Android, iPhone, Ruby on Rails e muito mais - Casa do Código</title>
+
+    <!-- CSS ajustado para pasta static/css -->
+    <link th:href="@{/css/cssbase-min.css}" rel="stylesheet" />
+    
+    <link th:href="@{/css/fonts.css}" rel="stylesheet" />
+    <link th:href="@{/css/fontello-ie7.css}" rel="stylesheet" />
+    <link th:href="@{/css/fontello-embedded.css}" rel="stylesheet" />
+    <link th:href="@{/css/fontello.css}" rel="stylesheet" />
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+    <link th:href="@{/css/layout-colors.css}" rel="stylesheet" />
+    <link th:href="@{/css/responsive-style.css}" rel="stylesheet" />
+    <link th:href="@{/css/guia-do-programador-style.css}" rel="stylesheet" />
+    <link th:href="@{/css/produtos.css}" rel="stylesheet" />
+    <link th:href="@{/css/book-collection.css}" rel="stylesheet" />
+</head>
+<body>
+
+<header id="layout-header">
+    <div class="clearfix container">
+        <a th:href="@{/}" id="logo"> </a>
+        <div id="header-content">
+            <nav id="main-nav">
+                <ul class="clearfix">
+                    <li><a th:href="@{/cart}" rel="nofollow">Carrinho</a></li>
+                    <li><a th:href="@{/pages/sobre-a-casa-do-codigo}" rel="nofollow">Sobre Nós</a></li>
+                    <li><a th:href="@{/pages/perguntas-frequentes}" rel="nofollow">Perguntas Frequentes</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<nav class="categories-nav">
+    <ul class="container">
+        <li class="category"><a th:href="@{/}">Home</a></li>
+        <li class="category"><a th:href="@{/collections/livros-de-agile}">Agile</a></li>
+        <li class="category"><a th:href="@{/collections/livros-de-front-end}">Front End</a></li>
+        <li class="category"><a th:href="@{/collections/livros-de-games}">Games</a></li>
+        <li class="category"><a th:href="@{/collections/livros-de-java}">Java</a></li>
+        <li class="category"><a th:href="@{/collections/livros-de-mobile}">Mobile</a></li>
+        <li class="category"><a th:href="@{/collections/livros-desenvolvimento-web}">Web</a></li>
+        <li class="category"><a th:href="@{/collections/outros}">Outros</a></li>
+    </ul>
+</nav>
+
+<section id="index-section" class="container middle">
+    <h1 class="cdc-call">Últimos dias com os preços promocionais. Aproveite!</h1>
+    
+    <ul class="clearfix book-collection">
+        <!-- Loop Thymeleaf -->
+        <li th:each="produto : ${produtos}">
+            <a th:href="@{'/produtos/detalhe/' + ${produto.id}}" class="block clearfix">
+                <h2 th:text="${produto.titulo}" class="product-title"></h2>
+                <img th:src="@{${produto.imagemUrl}}" th:alt="${produto.titulo}" />
+                <small class="buy-button">Compre</small>
+            </a>
+        </li>
+    </ul>
+
+    <h2 class="cdc-call">Diferenciais da Casa do Código</h2>
+
+    <ul id="cdc-diferenciais" class="clearfix">
+        <li class="col-left">
+            <h3>E-books sem DRM. Leia onde quiser</h3>
+            <p><span class="sprite" id="sprite-drm"></span> Nossos e-books não possuem DRM...</p>
+        </li>
+        <li class="col-right">
+            <h3>Autores de renome na comunidade</h3>
+            <p><span class="sprite" id="sprite-renome"></span> Autores que participam ativamente...</p>
+        </li>
+        <li class="col-left">
+            <h3>Receba atualizações dos e-books</h3>
+            <p><span class="sprite" id="sprite-atualizacoes"></span> Quando você compra um e-book...</p>
+        </li>
+        <li class="col-right">
+            <h3>Livros com curadoria da Caelum</h3>
+            <p><span class="sprite" id="sprite-caelum"></span> Desenvolvedores experientes...</p>
+        </li>
+    </ul>
+</section>
+
+<footer id="layout-footer">
+    <div class="clearfix container">
+        <!-- Footer simplificado -->
+        <p class="footer-title">Coleções de Programação</p>
+        <ul class="footer-text-links">
+            <li><a th:href="@{/collections/livros-de-java}">Java</a></li>
+            <li><a th:href="@{/collections/livros-desenvolvimento-web}">Desenvolvimento Web</a></li>
+            <li><a th:href="@{/collections/livros-de-mobile}">Mobile</a></li>
+            <li><a th:href="@{/collections/games}">Games</a></li>
+            <li><a th:href="@{/collections/livros-de-front-end}">Front End</a></li>
+        </ul>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -2,6 +2,7 @@ package br.com.casadocodigo.loja.models;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class CarrinhoItem implements Serializable{
 
@@ -23,17 +24,10 @@ public class CarrinhoItem implements Serializable{
 		return produto;
 	}
 
-	public void setProduto(Produto produto) {
-		this.produto = produto;
-	}
-
 	public TipoPreco getTipoPreco() {
 		return tipoPreco;
 	}
 
-	public void setTipoPreco(TipoPreco tipoPreco) {
-		this.tipoPreco = tipoPreco;
-	}
 
 	@Override
 	public int hashCode() {
@@ -45,23 +39,15 @@ public class CarrinhoItem implements Serializable{
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
+	public boolean equals(Object o) {
+		if (this == o)
 			return true;
-		if (obj == null)
+		if (!(o instanceof CarrinhoItem other))
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		CarrinhoItem other = (CarrinhoItem) obj;
-		if (produto == null) {
-			if (other.produto != null)
-				return false;
-		} else if (!produto.equals(other.produto))
-			return false;
-		if (tipoPreco != other.tipoPreco)
-			return false;
-		return true;
+		return Objects.equals(produto, other.produto)
+				&& tipoPreco == other.tipoPreco;
 	}
+
 	
 	public BigDecimal getTotal(int quantidade) {
 		return this.getPreco().multiply(new BigDecimal(quantidade));			

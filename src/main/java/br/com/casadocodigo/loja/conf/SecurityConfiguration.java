@@ -54,12 +54,13 @@ public class SecurityConfiguration {
         http
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/produtos/form").hasRole("ADMIN")
+                        .requestMatchers("/css/**", "/js/**", "/imagens/**", "/webjars/**", "/fonts/**","/arquivos-sumario/**").permitAll()
                         .requestMatchers("/login/form", "/login").permitAll()
                         .requestMatchers("/WEB-INF/views/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login/form")
-                        // .loginProcessingUrl("/login")
+                        .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/produtos")
                         .permitAll())
                 .logout(logout -> logout
@@ -70,15 +71,5 @@ public class SecurityConfiguration {
         return http.build();
     }
 
-    @Bean
-    @Profile("dev")
-    SecurityFilterChain filterChainNotSecurtiyDev(HttpSecurity http) throws Exception {
-    //    deepcode ignore DisablesCSRFProtection: Desabilita a proteção CSRF para facilitar o desenvolvimento, mas deve ser habilitada em produção.
-       return http
-            .authorizeRequests()
-                .anyRequest().permitAll() // libera todas as requisições
-            .and()
-            .csrf().disable().build(); // opcional, desativa CSRF
-    }
 
 }

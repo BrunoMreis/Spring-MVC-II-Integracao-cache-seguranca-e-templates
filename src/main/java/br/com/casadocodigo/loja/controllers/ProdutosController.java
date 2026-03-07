@@ -19,6 +19,7 @@ import br.com.casadocodigo.loja.dao.ProdutoDAO;
 import br.com.casadocodigo.loja.infra.FileSaver;
 import br.com.casadocodigo.loja.models.Produto;
 import br.com.casadocodigo.loja.models.TipoPreco;
+import br.com.casadocodigo.loja.models.dto.ProdutoDTO;
 import br.com.casadocodigo.loja.validation.ProdutoValidation;
 import jakarta.validation.Valid;
 
@@ -35,13 +36,13 @@ public class ProdutosController {
 		this.dao = dao;
 	}
 
-	@InitBinder
+	@InitBinder("produto")
 	public void initBinder(WebDataBinder binder) {
 		binder.addValidators(new ProdutoValidation());
 	}
 
 	@GetMapping("/form")
-	public ModelAndView form(Produto produto) {
+	public ModelAndView form(ProdutoDTO produtoDTO) {
 		ModelAndView modelAndView = new ModelAndView("/produtos/form");
 		modelAndView.addObject("tipos", TipoPreco.values());
 		return modelAndView;
@@ -49,11 +50,13 @@ public class ProdutosController {
 
 	@PostMapping
 	@CacheEvict(value = "produtosHome", allEntries = true)
-	public ModelAndView gravar(MultipartFile sumario, @Valid Produto produto, BindingResult result,
+	public ModelAndView gravar(MultipartFile sumario, @Valid ProdutoDTO produtoDTO, BindingResult result,
 			RedirectAttributes redirectAttributes) {
+		
+		Produto produto = produtoDTO.applyTo(produtoDTO.toProduto());
 
 		if (result.hasErrors()) {
-			return form(produto);
+			return form(produtoDTO);
 		}
 
 		String path = fileSaver.write("arquivos-sumario", sumario);

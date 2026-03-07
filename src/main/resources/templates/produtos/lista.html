@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Livros de Java, Android, iPhone, Ruby, PHP e muito mais - Casa do Código</title>
+
+    <!-- CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/css/bootstrap-theme.min.css}" rel="stylesheet" />
+
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed"
+                        data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+                        aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" th:href="@{/}">Casa do Código</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="nav-item"><a th:href="@{/produto/listar}">Lista de Produtos</a></li>
+                    <li class="nav-item"><a th:href="@{/produto/form}">Cadastro de Produtos</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item">
+                        <a href="#">
+                            Usuário: <span sec:authentication="name"></span>
+                        </a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="nav-item"><a th:href="@{/logout}">Sair</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Lista de Produtos</h1>
+
+        <div th:text="${sucesso}"></div>
+        <div th:text="${falha}"></div>
+
+        <table class="table table-bordered table-striped table-hover">
+            <tr>
+                <th>Título</th>
+                <th>Descrição</th>
+                <th>Páginas</th>
+            </tr>
+            <tr th:each="produto : ${produtos}">
+                <td>
+                    <a th:href="@{/produto/detalhe/{id}(id=${produto.id})}" th:text="${produto.titulo}"></a>
+                </td>
+                <td th:text="${produto.descricao}"></td>
+                <td th:text="${produto.paginas}"></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

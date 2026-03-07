@@ -26,7 +26,7 @@ public class Usuario implements UserDetails {
 	private String senha;
 	
 	@OneToMany(fetch = FetchType.EAGER)
-	private List<Role> roles = new ArrayList<Role>();
+	private List<Role> roles = new ArrayList<>();
 	
 
 	public String getEmail() {

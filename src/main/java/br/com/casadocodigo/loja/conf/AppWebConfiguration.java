@@ -27,6 +27,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 
@@ -39,31 +40,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Configuration
-@EnableWebMvc
-@ComponentScan(basePackageClasses = {HomeController.class, ProdutoDAO.class, FileSaver.class, CarrinhoCompras.class})
+@ComponentScan(basePackageClasses = { HomeController.class, ProdutoDAO.class, FileSaver.class, CarrinhoCompras.class })
 @EnableCaching
 public class AppWebConfiguration implements WebMvcConfigurer {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AppWebConfiguration.class);
-
-	@Bean
-	InternalResourceViewResolver internalResourceViewResolver() {
-		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-		resolver.setPrefix("/WEB-INF/views/");
-		resolver.setSuffix(".jsp");
-		resolver.setExposeContextBeansAsAttributes(true);
-		resolver.setExposedContextBeanNames("carrinhoCompras");
-		return resolver;
-	}
-
-	@Bean
-	MessageSource messageSource() {
-		ReloadableResourceBundleMessageSource ms = new ReloadableResourceBundleMessageSource();
-		ms.setBasename("/WEB-INF/messages");
-		ms.setDefaultEncoding("UTF-8");
-		ms.setCacheSeconds(1);
-		return ms;
-	}
 
 	@Bean
 	FormattingConversionService mvcConversionService() {
@@ -91,21 +72,22 @@ public class AppWebConfiguration implements WebMvcConfigurer {
 
 	@Bean
 	CacheManager cacheManager() {
-	    CaffeineCacheManager cacheManager = new CaffeineCacheManager();
-	    cacheManager.setCaffeine(Caffeine.newBuilder()
-	        .maximumSize(100)
-	        .expireAfterAccess(5, TimeUnit.MINUTES));
-	    return cacheManager;
+		CaffeineCacheManager cacheManager = new CaffeineCacheManager();
+		cacheManager.setCaffeine(Caffeine.newBuilder()
+				.maximumSize(100)
+				.expireAfterAccess(5, TimeUnit.MINUTES));
+		return cacheManager;
 	}
 
-	@Bean
-	ViewResolver contentNegotiationViewResolver(ContentNegotiationManager manager) {
-		List<ViewResolver> viewResolvers = new ArrayList<>();
-		viewResolvers.add(internalResourceViewResolver());
-		viewResolvers.add(new JsonViewResolver());
-		ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
-		resolver.setViewResolvers(viewResolvers);
-		resolver.setContentNegotiationManager(manager);
-		return resolver;
-	}
+	// @Bean
+	// public ViewResolver contentNegotiationViewResolver(ContentNegotiationManager manager,
+	// 		ThymeleafViewResolver thymeleafViewResolver) {
+	// 	List<ViewResolver> resolvers = new ArrayList<>();
+	// 	resolvers.add(thymeleafViewResolver);
+	// 	resolvers.add(new JsonViewResolver());
+	// 	ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
+	// 	resolver.setViewResolvers(resolvers);
+	// 	resolver.setContentNegotiationManager(manager);
+	// 	return resolver;
+	// }
 }
