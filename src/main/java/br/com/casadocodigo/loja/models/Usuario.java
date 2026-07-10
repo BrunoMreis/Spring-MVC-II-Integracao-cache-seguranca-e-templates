@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -26,6 +27,7 @@ public class Usuario implements UserDetails {
 	private String senha;
 	
 	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name = "usuario_email")
 	private List<Role> roles = new ArrayList<>();
 	
 
